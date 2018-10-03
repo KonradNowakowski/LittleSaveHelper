@@ -1,7 +1,7 @@
 ﻿namespace LittleSaveHelper
 {
     /// <summary>
-    /// Interaction logic for MainWindow.xaml
+    /// Logic of xaml file
     /// </summary>
     public partial class MainWindow
     {

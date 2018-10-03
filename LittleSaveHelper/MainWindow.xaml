@@ -6,7 +6,23 @@
         xmlns:local="clr-namespace:LittleSaveHelper"
         mc:Ignorable="d"
         Title="MainWindow" Height="350" Width="525">
-    <Grid>
-        
-    </Grid>
+    <Border Background="DimGray" Padding="10">
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            
+            <ListView Grid.Column="0" Background="LightGray">
+                
+            </ListView>
+            
+            <Border Grid.Column="1" Margin="10 0 0 0">
+                <StackPanel>
+                    <Button Content="Add Directory" Margin="0 0 0 10" Background="LightGray"/>
+                    <Button Content="Delete Directory" Background="LightGray"/>
+                </StackPanel>
+            </Border>
+        </Grid>
+    </Border>
 </Window>
