@@ -1,0 +1,15 @@
+C:\Users\BASIA\RiderProjects\LittleSaveHelper\LittleSaveHelper\bin\Debug\LittleSaveHelper.exe.config
+C:\Users\BASIA\RiderProjects\LittleSaveHelper\LittleSaveHelper\bin\Debug\LittleSaveHelper.exe
+C:\Users\BASIA\RiderProjects\LittleSaveHelper\LittleSaveHelper\bin\Debug\LittleSaveHelper.pdb
+C:\Users\BASIA\RiderProjects\LittleSaveHelper\LittleSaveHelper\obj\Debug\LittleSaveHelper.csprojAssemblyReference.cache
+C:\Users\BASIA\RiderProjects\LittleSaveHelper\LittleSaveHelper\obj\Debug\MainWindow.g.cs
+C:\Users\BASIA\RiderProjects\LittleSaveHelper\LittleSaveHelper\obj\Debug\App.g.cs
+C:\Users\BASIA\RiderProjects\LittleSaveHelper\LittleSaveHelper\obj\Debug\LittleSaveHelper_MarkupCompile.cache
+C:\Users\BASIA\RiderProjects\LittleSaveHelper\LittleSaveHelper\obj\Debug\LittleSaveHelper_MarkupCompile.lref
+C:\Users\BASIA\RiderProjects\LittleSaveHelper\LittleSaveHelper\obj\Debug\MainWindow.baml
+C:\Users\BASIA\RiderProjects\LittleSaveHelper\LittleSaveHelper\obj\Debug\LittleSaveHelper.g.resources
+C:\Users\BASIA\RiderProjects\LittleSaveHelper\LittleSaveHelper\obj\Debug\LittleSaveHelper.Properties.Resources.resources
+C:\Users\BASIA\RiderProjects\LittleSaveHelper\LittleSaveHelper\obj\Debug\LittleSaveHelper.csproj.GenerateResource.cache
+C:\Users\BASIA\RiderProjects\LittleSaveHelper\LittleSaveHelper\obj\Debug\LittleSaveHelper.csproj.CoreCompileInputs.cache
+C:\Users\BASIA\RiderProjects\LittleSaveHelper\LittleSaveHelper\obj\Debug\LittleSaveHelper.exe
+C:\Users\BASIA\RiderProjects\LittleSaveHelper\LittleSaveHelper\obj\Debug\LittleSaveHelper.pdb
