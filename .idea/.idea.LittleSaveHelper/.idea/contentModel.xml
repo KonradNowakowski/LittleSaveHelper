@@ -20,6 +20,12 @@
           <e p="Resources.Designer.cs" t="Include" />
           <e p="Resources.resx" t="Include" />
         </e>
+        <e p="Windows" t="Include">
+          <e p="AddListElement.xaml" t="Include" />
+          <e p="AddListElement.xaml.cs" t="Include" />
+          <e p="DeleteListElement.xaml" t="Include" />
+          <e p="DeleteListElement.xaml.cs" t="Include" />
+        </e>
       </e>
       <e p="LittleSaveHelper.sln" t="IncludeFlat" />
       <e p="packages" t="ExcludeRecursive" />

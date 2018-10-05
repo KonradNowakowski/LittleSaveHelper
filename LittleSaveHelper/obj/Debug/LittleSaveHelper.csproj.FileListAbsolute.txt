@@ -13,3 +13,7 @@ C:\Users\BASIA\RiderProjects\LittleSaveHelper\LittleSaveHelper\obj\Debug\LittleS
 C:\Users\BASIA\RiderProjects\LittleSaveHelper\LittleSaveHelper\obj\Debug\LittleSaveHelper.csproj.CoreCompileInputs.cache
 C:\Users\BASIA\RiderProjects\LittleSaveHelper\LittleSaveHelper\obj\Debug\LittleSaveHelper.exe
 C:\Users\BASIA\RiderProjects\LittleSaveHelper\LittleSaveHelper\obj\Debug\LittleSaveHelper.pdb
+C:\Users\BASIA\RiderProjects\LittleSaveHelper\LittleSaveHelper\obj\Debug\Windows\AddListElement.g.cs
+C:\Users\BASIA\RiderProjects\LittleSaveHelper\LittleSaveHelper\obj\Debug\Windows\AddListElement.baml
+C:\Users\BASIA\RiderProjects\LittleSaveHelper\LittleSaveHelper\obj\Debug\Windows\DeleteListElement.g.cs
+C:\Users\BASIA\RiderProjects\LittleSaveHelper\LittleSaveHelper\obj\Debug\Windows\DeleteListElement.baml

@@ -13,10 +13,10 @@
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
             
-            <ListView Name="ItemList" Grid.Column="0" Background="LightGray" MouseDoubleClick="ItemList_OnMouseDoubleClick">
+            <ListView Name="ItemList" Grid.Column="0" Background="LightGray">
                 <ListView.View>
                     <GridView>
-                        <GridViewColumn Header="Game Name" DisplayMemberBinding="{Binding GameName}" Width="105" />
+                        <GridViewColumn Header="Game Name" DisplayMemberBinding="{Binding GameName}" Width="100" />
                         <GridViewColumn Header="Last Backup" DisplayMemberBinding="{Binding LastBackupTime}" Width="130" />
                     </GridView>
                 </ListView.View>
@@ -27,13 +27,6 @@
                     <Button Name="AddButton" Content="Add Directory" Background="LightGray" Click="AddButton_OnClick"/>
                     <Button Name="DeleteButton" Content="Delete Directory" Margin="0 10 0 0" Background="LightGray"
                             Click="DeleteButton_OnClick"/>
-                    
-                    <TextBlock Text="1"/>
-                    <TextBox Text="BOY" IsEnabled="False"/>
-                    <TextBlock Text="1"/>
-                    <TextBox/>
-                    <TextBlock Text="1"/>
-                    <TextBox/>
                     
                 </StackPanel>
             </Border>
