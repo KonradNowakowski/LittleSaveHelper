@@ -8,7 +8,8 @@ namespace LittleSaveHelper.Windows
 {
     public partial class AddListElement : Window
     {
-        private string GameName, path, _path, time;
+        // ReSharper disable once InconsistentNaming
+        private string _gameName, path, _path, _time;
         public AddListElement()
         {
             InitializeComponent();
@@ -25,12 +26,12 @@ namespace LittleSaveHelper.Windows
         
         private void OKButton_OnClick(object sender, RoutedEventArgs e)
         {
-            GameName = GameNameBox.Text;
+            _gameName = GameNameBox.Text;
             path = _path;
-            time = time = DateTime.Now.Year + "/" + DateTime.Now.Month + "/" + DateTime.Now.Day + " " +
+            _time = _time = DateTime.Now.Year + "/" + DateTime.Now.Month + "/" + DateTime.Now.Day + " " +
                           DateTime.Now.Hour + ":" + DateTime.Now.Minute;
-            var a = new List<string> {GameName, path, time};
-            MainWindow.publicList = a;
+            var a = new List<string> {_gameName, path, _time};
+            MainWindow.PublicList = a;
             Close();
         }
 

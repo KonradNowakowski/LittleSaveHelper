@@ -1,4 +1,6 @@
+using System.Collections.Generic;
 using System.Windows;
+using System.Windows.Controls;
 
 namespace LittleSaveHelper.Windows
 {
@@ -11,11 +13,17 @@ namespace LittleSaveHelper.Windows
 
         private void OKButton_OnClick(object sender, RoutedEventArgs e)
         {
-            MainWindow.publicArray = new[]
+            List<TextBox> list = new List<TextBox>
             {
-                int.Parse(Box1.Text), int.Parse(Box2.Text), int.Parse(Box3.Text), int.Parse(Box4.Text),
-                int.Parse(Box5.Text), int.Parse(Box6.Text), int.Parse(Box7.Text), int.Parse(Box8.Text)
+                Box1, Box2, Box3, Box4, Box5, Box6, Box6, Box7, Box8
             };
+            
+            for (int i = 0; i < 8; i++)
+            {
+                if (!string.IsNullOrEmpty(list[i].Text))
+                    MainWindow.PublicIntList.Add(int.Parse(list[i].Text));
+            }
+            
             Close();
         }
 

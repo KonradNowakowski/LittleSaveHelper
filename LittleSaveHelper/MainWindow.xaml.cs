@@ -12,165 +12,194 @@ namespace LittleSaveHelper
     /// </summary>
     public partial class MainWindow
     {
-        internal static int[] publicArray = null;
-        internal static List<string> publicList = new List<string>(3);
-        private List<SaveInfo> list = new List<SaveInfo>();
-        private static readonly string path =
-            Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "LittleSaveHelper");
-        const string fileName = "Data.dat";
+        // ReSharper disable once FieldCanBeMadeReadOnly.Global
+        internal static List<int> PublicIntList = new List<int>();
+        internal static List<string> PublicList = new List<string>(3);
+        private static List<SaveInfo> _list;
+        private static readonly string Path =
+            System.IO.Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "LittleSaveHelper");
+        private const string FileName = "Data.dat";
         
         public MainWindow()
         {
             InitializeComponent();
-            Directory.CreateDirectory(path);
-            File.Create(Path.Combine(path, fileName)).Close();
-            var temp = ReadFromFile();
+            
+            if (!Directory.Exists(Path))
+                Directory.CreateDirectory(Path);
+            
+            if (!File.Exists(System.IO.Path.Combine(Path, FileName)))
+                File.Create(System.IO.Path.Combine(Path, FileName)).Close();
 
-            try
-            {
-                if (temp != null || temp.Count == 0)
-                {
-                    for (int i = 0; i < temp.Count; i++)
-                    {
-                        ItemList.Items.Add(new SaveInfo
-                        {
-                            GameName = temp[i].GameName,
-                            LastBackupTime = temp[i].LastBackupTime
-                        });
-                    }
-                }
-            }
-            catch (Exception) { }
+            _list = ReadFromFile();
+            
+            ItemList.ItemsSource = _list;
+            
+            RefreshElements();
         }
+
+        #region Add button event and method
 
         private void AddButton_OnClick(object sender, RoutedEventArgs e)
         {
+            AddElement();
+        }
+
+        private void AddElement()
+        {
             var addListElement = new AddListElement();
             addListElement.ShowDialog();
-            ReadFromFile(ref list);
-            
-            for (int i = 0; i < publicList.Count; i++)
-            {
-                if (publicList[i] == null || publicList[i] == "")
-                {
+            ReadFromFile();
+
+            foreach (var t in PublicList)
+                if (string.IsNullOrEmpty(t))
                     return;
-                }
-            }
-            
+
             // Adds content to private list and clears public
-            List<SaveInfo> a = new List<SaveInfo> { new SaveInfo
+            var a = new List<SaveInfo>
             {
-                GameName = publicList[0],
-                LastBackupTime = publicList[2],
-                Path = publicList[1]
-            }};
-            list.Add(a[0]);
-            publicList.Clear();
-            
+                new SaveInfo
+                {
+                    Number = _list.Count,
+                    GameName = PublicList[0],
+                    LastBackupTime = PublicList[2],
+                    Path = PublicList[1]
+                }
+            };
+            _list.Add(a[0]);
+            PublicList.Clear();
+
             // Refreshes content of ViewList and saves list to file
-            ItemList.ItemsSource = list;
             ItemList.Items.Refresh();
-            SaveToFile(list);
+            SaveToFile(_list);
         }
+
+        #endregion
+
+        #region Delete button event and method
 
         private void DeleteButton_OnClick(object sender, RoutedEventArgs e)
         {
+            DeleteElement(ref _list);
+        }
+
+        private void DeleteElement(ref List<SaveInfo> list)
+        {
             var deleteListElement = new DeleteListElement();
-            deleteListElement.Show();
+            deleteListElement.ShowDialog();
+
+            foreach (SaveInfo saveInfo in list)
+                if (saveInfo == null || string.IsNullOrEmpty(saveInfo.GameName))
+                    return;
+            
+            PublicIntList.Sort();
+            var temp = new List<int>();
+            
+            foreach (var i in PublicIntList) temp.Add(i);
 
             // Deletes elements pointed by user
-            foreach (int i in publicArray)
-            {
-                list.RemoveAt(i);
-            }
+            //list.RemoveAll(r => temp.Any(a => a == r.Number));
+
+            list.RemoveAll(r => temp.Any(a => a==r.Number));
+
+            PublicIntList.Clear();
+            temp.Clear();
 
             // Refreshes content of ViewList and saves list to file
-            ItemList.ItemsSource = list;
-            ItemList.Items.Refresh();
             SaveToFile(list);
+            RefreshElements();
+            ReadFromFile();
         }
+
+        #endregion
+
+        #region Refresh button event and method
 
         private void RefreshButton_OnClick(object sender, RoutedEventArgs e)
         {
-            ItemList.Items.Refresh();
+            RefreshElements();
         }
+
+        private void RefreshElements()
+        {
+            if (ItemList.Items.Count != 0)
+            {
+                ItemList.ItemsSource = null;
+                ItemList.Items.Clear();
+                _list = ReadFromFile();
+                ItemList.ItemsSource = _list;
+            }
+
+            ItemList.Items.Refresh();
+            SaveToFile(_list);
+        }
+
+        #endregion
+
+        #region Save to file
 
         /// <summary>
         /// Saves to file given list
         /// </summary>
-        /// <param name="_list">List which is saved to file</param>
-        private void SaveToFile(List<SaveInfo> _list)
+        /// <param name="list">List which is saved to file</param>
+        private static void SaveToFile(IEnumerable<SaveInfo> list)
         {
-            using (StreamWriter sw = new StreamWriter(Path.Combine(path, "data.dat"), true))
+            File.Delete(System.IO.Path.Combine(Path, FileName));
+            File.Create(System.IO.Path.Combine(Path, FileName)).Close();
+            
+            using (var sw = new StreamWriter(System.IO.Path.Combine(Path, FileName), true))
             {
-                foreach (var saveInfo in _list)
+                foreach (var saveInfo in list)
                 {
-                    sw.WriteLine(saveInfo.GameName + "@" + saveInfo.LastBackupTime + "@" + saveInfo.Path);
+                    sw.WriteLine(saveInfo.Number + "@" + saveInfo.GameName + "@" + saveInfo.LastBackupTime + "@" + saveInfo.Path);
                 }
             }
         }
 
+        #endregion
+
+        #region Read from file
+
         private static List<SaveInfo> ReadFromFile()
         {
-            if (!File.Exists(Path.Combine(path, fileName)))
-                return null;
+            if (!File.Exists(System.IO.Path.Combine(Path, FileName)))
+                return new List<SaveInfo>();
             
-            var a = File.ReadAllLines(Path.Combine(path, fileName));
-            if (a.Length == 0)
-                return null;
+            if (File.ReadAllLines(System.IO.Path.Combine(Path, FileName)).Length == 0)
+                return new List<SaveInfo>();
 
-            string[] temp = File.ReadAllLines(Path.Combine(path, fileName));
-            string[] names = new string[temp.Length];
-            string[] dates = new string[temp.Length];
-            string[] patches = new string[temp.Length];
-            List<SaveInfo> tempList = new List<SaveInfo>();
+            var temp = File.ReadAllLines(System.IO.Path.Combine(Path, FileName));
             
-            for (int i = 0; i < temp.Length; i++)
+            var numbers = new int[temp.Length];
+            var gameNames = new string[temp.Length];
+            var dates = new string[temp.Length];
+            var patches = new string[temp.Length];
+            var tempList = new List<SaveInfo>();
+            
+            for (var i = 0; i < temp.Length; i++)
             {
-                names[i] = temp[i].Split('@')[0];
-                dates[i] = temp[i].Split('@')[1];
-                patches[i] = temp[i].Split('@')[2];
+                numbers[i] = i;
+                gameNames[i] = temp[i].Split('@')[1];
+                dates[i] = temp[i].Split('@')[2];
+                patches[i] = temp[i].Split('@')[3];
             }
-
-            for (int i = 0; i < temp.Length; i++)
+            
+            for (var i = 0; i < temp.Length; i++)
             {
-                tempList[i] = new SaveInfo{GameName = names[i], LastBackupTime = dates[i], Path = patches[i]};
+                tempList.Add(new SaveInfo
+                    { Path = patches[i], GameName = gameNames[i], LastBackupTime = dates[i], Number = numbers[i] });
             }
 
             return tempList;
         }
-        
-        private static void ReadFromFile(ref List<SaveInfo> _list)
-        {
-            if (!File.Exists(Path.Combine(path, fileName)))
-                return;
-            
-            var a = File.ReadAllLines(Path.Combine(path, fileName));
-            if (a.Length == 0)
-                return;
 
-            string[] temp = File.ReadAllLines(Path.Combine(path, fileName));
-            string[] names = new string[temp.Length];
-            string[] dates = new string[temp.Length];
-            string[] patches = new string[temp.Length];
-            
-            for (int i = 0; i < temp.Length; i++)
-            {
-                names[i] = temp[i].Split('@')[0];
-                dates[i] = temp[i].Split('@')[1];
-                patches[i] = temp[i].Split('@')[2];
-            }
-
-            for (int i = 0; i < temp.Length; i++)
-            {
-                _list[i] = new SaveInfo{GameName = names[i], LastBackupTime = dates[i], Path = patches[i]};
-            }
-        }
+        #endregion
 
         private class SaveInfo
         {
+            public int Number { get; set; }
             public string GameName { get; set; }
             public string LastBackupTime { get; set; }
+            // ReSharper disable once MemberHidesStaticFromOuterClass
             public string Path { get; set; }
         }
     }

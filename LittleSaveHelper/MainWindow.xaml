@@ -15,8 +15,9 @@
             <ListView Name="ItemList" Grid.Column="0" Background="LightGray">
                 <ListView.View>
                     <GridView>
+                        <GridViewColumn Header="Nr" DisplayMemberBinding="{Binding Number}" Width="33"/>
                         <GridViewColumn Header="Game Name" DisplayMemberBinding="{Binding GameName}" Width="100" />
-                        <GridViewColumn Header="Last Backup" DisplayMemberBinding="{Binding LastBackupTime}" Width="130" />
+                        <GridViewColumn Header="Last Backup" DisplayMemberBinding="{Binding LastBackupTime}" Width="101" />
                     </GridView>
                 </ListView.View>
             </ListView>
