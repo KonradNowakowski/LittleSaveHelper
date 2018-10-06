@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Windows;
-using System.Windows.Controls;
 using LittleSaveHelper.Windows;
 
 namespace LittleSaveHelper
@@ -12,30 +12,63 @@ namespace LittleSaveHelper
     /// </summary>
     public partial class MainWindow
     {
-        public static int[] publicArray = null;
-        public static List<string> publicList = new List<string>();
+        internal static int[] publicArray = null;
+        internal static List<string> publicList = new List<string>(3);
         private List<SaveInfo> list = new List<SaveInfo>();
-        readonly string path = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);
+        private static readonly string path =
+            Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "LittleSaveHelper");
         const string fileName = "Data.dat";
         
         public MainWindow()
         {
             InitializeComponent();
-            File.Create(Path.Combine(path, fileName));
             Directory.CreateDirectory(path);
-            ItemList.ItemsSource = ReadFromFile();
+            File.Create(Path.Combine(path, fileName)).Close();
+            var temp = ReadFromFile();
+
+            try
+            {
+                if (temp != null || temp.Count == 0)
+                {
+                    for (int i = 0; i < temp.Count; i++)
+                    {
+                        ItemList.Items.Add(new SaveInfo
+                        {
+                            GameName = temp[i].GameName,
+                            LastBackupTime = temp[i].LastBackupTime
+                        });
+                    }
+                }
+            }
+            catch (Exception) { }
         }
 
         private void AddButton_OnClick(object sender, RoutedEventArgs e)
         {
             var addListElement = new AddListElement();
-            addListElement.Show();
-
+            addListElement.ShowDialog();
+            ReadFromFile(ref list);
+            
+            for (int i = 0; i < publicList.Count; i++)
+            {
+                if (publicList[i] == null || publicList[i] == "")
+                {
+                    return;
+                }
+            }
+            
             // Adds content to private list and clears public
-            list.Add(new SaveInfo {GameName = publicList[0], Path = publicList[1], LastBackupTime = publicList[2]});
+            List<SaveInfo> a = new List<SaveInfo> { new SaveInfo
+            {
+                GameName = publicList[0],
+                LastBackupTime = publicList[2],
+                Path = publicList[1]
+            }};
+            list.Add(a[0]);
             publicList.Clear();
             
             // Refreshes content of ViewList and saves list to file
+            ItemList.ItemsSource = list;
             ItemList.Items.Refresh();
             SaveToFile(list);
         }
@@ -52,14 +85,20 @@ namespace LittleSaveHelper
             }
 
             // Refreshes content of ViewList and saves list to file
+            ItemList.ItemsSource = list;
             ItemList.Items.Refresh();
             SaveToFile(list);
+        }
+
+        private void RefreshButton_OnClick(object sender, RoutedEventArgs e)
+        {
+            ItemList.Items.Refresh();
         }
 
         /// <summary>
         /// Saves to file given list
         /// </summary>
-        /// <param name="_list"></param>
+        /// <param name="_list">List which is saved to file</param>
         private void SaveToFile(List<SaveInfo> _list)
         {
             using (StreamWriter sw = new StreamWriter(Path.Combine(path, "data.dat"), true))
@@ -71,7 +110,7 @@ namespace LittleSaveHelper
             }
         }
 
-        private List<SaveInfo> ReadFromFile()
+        private static List<SaveInfo> ReadFromFile()
         {
             if (!File.Exists(Path.Combine(path, fileName)))
                 return null;
@@ -83,22 +122,49 @@ namespace LittleSaveHelper
             string[] temp = File.ReadAllLines(Path.Combine(path, fileName));
             string[] names = new string[temp.Length];
             string[] dates = new string[temp.Length];
-            string[] pathes = new string[temp.Length];
+            string[] patches = new string[temp.Length];
             List<SaveInfo> tempList = new List<SaveInfo>();
             
             for (int i = 0; i < temp.Length; i++)
             {
                 names[i] = temp[i].Split('@')[0];
                 dates[i] = temp[i].Split('@')[1];
-                pathes[i] = temp[i].Split('@')[2];
+                patches[i] = temp[i].Split('@')[2];
             }
 
             for (int i = 0; i < temp.Length; i++)
             {
-                tempList[i] = new SaveInfo{GameName = names[i], LastBackupTime = dates[i], Path = pathes[i]};
+                tempList[i] = new SaveInfo{GameName = names[i], LastBackupTime = dates[i], Path = patches[i]};
             }
 
             return tempList;
+        }
+        
+        private static void ReadFromFile(ref List<SaveInfo> _list)
+        {
+            if (!File.Exists(Path.Combine(path, fileName)))
+                return;
+            
+            var a = File.ReadAllLines(Path.Combine(path, fileName));
+            if (a.Length == 0)
+                return;
+
+            string[] temp = File.ReadAllLines(Path.Combine(path, fileName));
+            string[] names = new string[temp.Length];
+            string[] dates = new string[temp.Length];
+            string[] patches = new string[temp.Length];
+            
+            for (int i = 0; i < temp.Length; i++)
+            {
+                names[i] = temp[i].Split('@')[0];
+                dates[i] = temp[i].Split('@')[1];
+                patches[i] = temp[i].Split('@')[2];
+            }
+
+            for (int i = 0; i < temp.Length; i++)
+            {
+                _list[i] = new SaveInfo{GameName = names[i], LastBackupTime = dates[i], Path = patches[i]};
+            }
         }
 
         private class SaveInfo

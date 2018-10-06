@@ -17,3 +17,7 @@ C:\Users\BASIA\RiderProjects\LittleSaveHelper\LittleSaveHelper\obj\Debug\Windows
 C:\Users\BASIA\RiderProjects\LittleSaveHelper\LittleSaveHelper\obj\Debug\Windows\AddListElement.baml
 C:\Users\BASIA\RiderProjects\LittleSaveHelper\LittleSaveHelper\obj\Debug\Windows\DeleteListElement.g.cs
 C:\Users\BASIA\RiderProjects\LittleSaveHelper\LittleSaveHelper\obj\Debug\Windows\DeleteListElement.baml
+C:\Users\BASIA\RiderProjects\LittleSaveHelper\LittleSaveHelper\bin\Debug\Ookii.Dialogs.Wpf.dll
+C:\Users\BASIA\RiderProjects\LittleSaveHelper\LittleSaveHelper\bin\Debug\Ookii.Dialogs.Wpf.pdb
+C:\Users\BASIA\RiderProjects\LittleSaveHelper\LittleSaveHelper\bin\Debug\Ookii.Dialogs.Wpf.xml
+C:\Users\BASIA\RiderProjects\LittleSaveHelper\LittleSaveHelper\obj\Debug\LittleSaveHelper.csproj.CopyComplete

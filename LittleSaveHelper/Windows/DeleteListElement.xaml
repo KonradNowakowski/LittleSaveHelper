@@ -3,7 +3,6 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-        xmlns:local="clr-namespace:LittleSaveHelper.Windows"
         mc:Ignorable="d"
         Title="DeleteListElement" Height="150" Width="400" ResizeMode="NoResize" SizeToContent="Height">
     <Border Padding="10" Background="Gray">
@@ -40,7 +39,7 @@
                 </Grid.ColumnDefinitions>
                 
                 <Button Name="CancelButton" Content="Cancel" Grid.Column="0" Click="CancelButton_OnClick"/>
-                <Button Name="OKButton" Content="OK" Grid.Column="2" Click="OKButton_OnClick"/>
+                <Button Name="OkButton" Content="OK" Grid.Column="2" Click="OKButton_OnClick"/>
             </Grid>
         </StackPanel>
     </Border>
